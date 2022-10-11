@@ -7,18 +7,47 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private int moveSpeed = 50;
+    [SerializeField] private int fuerzaSalto = 4;
 
+    private bool isGrounded = true;
+    
+    // Cached reference
+    private Rigidbody _playerRb;
+    
     private void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Debug.Log("Hem colisionat amb " + collision.gameObject.name);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
     void Update()
     {
+        // if (Input.GetKeyDown(KeyCode.Space) && transform.position.y <= 1.1f)
+        // {
+        //     _playerRb = this.gameObject.GetComponent<Rigidbody>();
+        //     _playerRb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
+        // }
+        
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            _playerRb = this.gameObject.GetComponent<Rigidbody>();
+            _playerRb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
+            isGrounded = false;
+        }
+
         if (Input.GetKey(KeyCode.W) == true)
         {
             // Move forward
+            // new Vector3(0, 0, 1)  === Vector3.forward
             transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
         }
         else if (Input.GetKey(KeyCode.S))
