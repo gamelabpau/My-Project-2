@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = true;
         }
+        
     }
 
     void Update()

@@ -21,6 +21,7 @@ public class CollectCoin : MonoBehaviour
             Debug.Log("10$");
             Destroy(gameObject);
             _spawnCoin.spawnNewCoin();
+            
         }
     }
 }
