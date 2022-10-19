@@ -5,12 +5,10 @@ using UnityEngine;
 
 public class CollectCoin : MonoBehaviour
 {
-    [SerializeField]
-    private SpawnCoin _spawnCoin;
-
+    private GameManager _gameManager;
     private void Start()
     {
-        _spawnCoin = FindObjectOfType<SpawnCoin>();
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -18,10 +16,9 @@ public class CollectCoin : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             // Add points
-            Debug.Log("10$");
+            //Debug.Log("10$");
+            _gameManager.IncrementarMonedas();
             Destroy(gameObject);
-            _spawnCoin.spawnNewCoin();
-            
         }
     }
 }

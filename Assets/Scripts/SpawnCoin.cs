@@ -6,8 +6,6 @@ using Random = UnityEngine.Random;
 
 public class SpawnCoin : MonoBehaviour
 {
-    private int coinCount = 0;
-    
     [SerializeField]
     private GameObject coinPrefab;
 
@@ -19,23 +17,14 @@ public class SpawnCoin : MonoBehaviour
     
     private void Start()
     {
-        spawnNewCoin();
+        SpawnNewCoin();
     }
 
-    public void spawnNewCoin()
+    public void SpawnNewCoin()
     {
-        if (coinCount < 5)
-        {
             int xOffset = Random.Range(xMin, xMax);
             int zOffset = Random.Range(zMin, zMax);
             Vector3 offset = new Vector3(xOffset, yInicial, zOffset);
             Instantiate(coinPrefab, offset, Quaternion.identity);
-            coinCount++;
-            Debug.Log($"You have ${coinCount*10}");
-        }
-        else
-        {
-            Debug.Log("Congrats. You win!");
-        }
     }
 }
