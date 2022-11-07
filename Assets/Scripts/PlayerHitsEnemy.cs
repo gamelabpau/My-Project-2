@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class PlayerHitsEnemy : MonoBehaviour
 {
-    private PlayerHealth _playerHealth;
+    private GameManager _gameManager;
 
     private void Start()
     {
-        _playerHealth = FindObjectOfType<PlayerHealth>();
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            _playerHealth.takeDamage(10f);
+            _gameManager.takeDamage(10f);
         }
     }
 }

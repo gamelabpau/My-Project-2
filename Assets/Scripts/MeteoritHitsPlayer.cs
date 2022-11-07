@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class MeteoritHitsPlayer : MonoBehaviour
 {
-    private PlayerHealth _playerHealth;
+    private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
-        _playerHealth = FindObjectOfType<PlayerHealth>();
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Destroy(collision.gameObject);
-            // Debug.Log("Die!");
-            _playerHealth.takeDamage(30f);
+            _gameManager.takeDamage(30f);
         }
         Destroy(gameObject);
     }
