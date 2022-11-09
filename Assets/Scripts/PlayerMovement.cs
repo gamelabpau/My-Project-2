@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
         //     _playerRb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
         // }
         
+        
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             _playerRb = this.gameObject.GetComponent<Rigidbody>();

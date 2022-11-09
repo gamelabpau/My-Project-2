@@ -12,7 +12,7 @@ public class MoveMeteorit : MonoBehaviour
     
     private Vector3 _direction;
 
-    [SerializeField] private float meteoritSpeed = 1.0f;
+    [SerializeField] private float meteoritSpeed = 3.0f;
     // Start is called before the first frame update
     void Start()
     {
