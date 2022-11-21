@@ -12,6 +12,11 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         _btnPlay.onClick.AddListener(LoadLevel1);
+        GameObject gameManager = GameObject.Find("Game Manager");
+        if (gameManager != null)
+        {
+            Destroy(gameManager);
+        }
     }
 
     private void LoadLevel1()

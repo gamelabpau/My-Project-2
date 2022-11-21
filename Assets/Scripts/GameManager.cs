@@ -9,32 +9,29 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    private GameObject _gameManagerGO;
-    
     private float health = 100.0f;
-
+    private bool win = false;
+    private int level = 0;
+    private int coinCount = 0;
+    
     // Cached references
     private SpawnCoin _spawnCoin;
     [SerializeField] private TextMeshProUGUI _txtCoins;
     [SerializeField] private TextMeshProUGUI _txtWinMessage;
-    [SerializeField] private Button _btnReiniciar;
+    [SerializeField] private Button _btnOk;
     [SerializeField] private GameObject _player;
     [SerializeField] private Slider _healthBar;
-    private bool win = false;
-    [SerializeField] private int level = 0;
-    [SerializeField] private int coinCount = 0;
-    
+
     private void Awake()
     {
-        _gameManagerGO = GameObject.Find("Game Manager");
         if (instance != null && instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {
             instance = this;
-            DontDestroyOnLoad(_gameManagerGO);
+            DontDestroyOnLoad(gameObject);
         }
     }
 
@@ -48,8 +45,8 @@ public class GameManager : MonoBehaviour
         win = false;
         _spawnCoin = FindObjectOfType<SpawnCoin>();
         _txtWinMessage.gameObject.SetActive(false);
-        _btnReiniciar.onClick.AddListener(GameOver);
-        _btnReiniciar.gameObject.SetActive(false);
+        _btnOk.onClick.AddListener(GameOver);
+        _btnOk.gameObject.SetActive(false);
         Time.timeScale = 1.0f;
         if (!PlayerPrefs.HasKey("level"))
         {
@@ -60,26 +57,9 @@ public class GameManager : MonoBehaviour
         else
         {
             level = PlayerPrefs.GetInt("level");
-            if ( level == 1)
-            {
-                // nivell 1
-            }
-            else if (level == 2)
-            {
-                // nivell 2
-            }
-            else
-            {
-                // ERROR
-            }
         }
     }
     
-    private void ReiniciarNivel()
-    {
-        SceneManager.LoadScene(0);
-    }
-
     private void GameOver()
     {
         if (level == 1 && win)
@@ -96,17 +76,9 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("GameOver");
         }
         InitLevel();
-        // else if (level == 2 && win)
-        // {
-        //     // GameOver
-        // }
-        // else if (level == 2 && !win)
-        // {
-        //     // GameOver
-        // }
     }
     
-    public void takeDamage(float damageAmount)
+    public void TakeDamage(float damageAmount)
     {
         health = health - damageAmount;
         _healthBar.value = health;
@@ -132,6 +104,8 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                coinCount++;
+                _txtCoins.text = "$ " + coinCount * 10;
                 win = true;
                 if (!PlayerPrefs.HasKey("level"))
                 {
@@ -152,6 +126,8 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                coinCount++;
+                _txtCoins.text = "$ " + coinCount * 10;
                 win = true;
                 EndLevel("You win!");
             }
@@ -162,7 +138,7 @@ public class GameManager : MonoBehaviour
     {
         _txtWinMessage.gameObject.SetActive(true);
         _txtWinMessage.text = message;
-        _btnReiniciar.gameObject.SetActive(true);
+        _btnOk.gameObject.SetActive(true);
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;

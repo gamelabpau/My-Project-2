@@ -9,14 +9,13 @@ public class MeteoritHitsPlayer : MonoBehaviour
     [SerializeField] private AudioClip hitPlayerAudioClip;
     [SerializeField] private ParticleSystem hitFloorParticleSystem;
     [SerializeField] private ParticleSystem hitPlayerParticleSystem;
-    
     private GameManager _gameManager;
-    // Start is called before the first frame update
+
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
         meteoritAudioSource = this.gameObject.GetComponent<AudioSource>();
-        //hitFloorParticleSystem = GameObject.
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -26,7 +25,7 @@ public class MeteoritHitsPlayer : MonoBehaviour
             // Play hit player audio clip
             meteoritAudioSource.PlayOneShot(hitPlayerAudioClip, 1.0f);
             hitPlayerParticleSystem.Play();
-            _gameManager.takeDamage(30f);
+            _gameManager.TakeDamage(30f);
         }
         else
         {

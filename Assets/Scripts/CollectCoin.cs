@@ -23,7 +23,6 @@ public class CollectCoin : MonoBehaviour
             _playerAudioSource.Play();
             _gameManager.IncrementarMonedas();
             Destroy(gameObject);
-            
         }
     }
 }

@@ -16,7 +16,7 @@ public class PlayerHitsEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            _gameManager.takeDamage(10f);
+            _gameManager.TakeDamage(10f);
         }
     }
 }
