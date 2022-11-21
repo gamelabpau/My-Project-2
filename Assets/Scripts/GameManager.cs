@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+    private GameObject _gameManagerGO;
+    
     private float health = 100.0f;
 
     // Cached references
@@ -19,9 +22,30 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider _healthBar;
     private bool win = false;
     [SerializeField] private int level = 0;
+    [SerializeField] private int coinCount = 0;
+    
+    private void Awake()
+    {
+        _gameManagerGO = GameObject.Find("Game Manager");
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(_gameManagerGO);
+        }
+    }
 
     private void Start()
     {
+        InitLevel();
+    }
+
+    private void InitLevel()
+    {
+        win = false;
         _spawnCoin = FindObjectOfType<SpawnCoin>();
         _txtWinMessage.gameObject.SetActive(false);
         _btnReiniciar.onClick.AddListener(GameOver);
@@ -50,7 +74,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
+    
     private void ReiniciarNivel()
     {
         SceneManager.LoadScene(0);
@@ -60,6 +84,7 @@ public class GameManager : MonoBehaviour
     {
         if (level == 1 && win)
         {
+            win = false;
             PlayerPrefs.SetInt("level", 2);
             PlayerPrefs.Save();
             SceneManager.LoadScene("Level2");
@@ -70,6 +95,7 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.Save();
             SceneManager.LoadScene("GameOver");
         }
+        InitLevel();
         // else if (level == 2 && win)
         // {
         //     // GameOver
@@ -93,26 +119,40 @@ public class GameManager : MonoBehaviour
             win = false;
         }   
     }
-    
-    private int coinCount = 0;
-    
+
     public void IncrementarMonedas()
     {
-        if (coinCount < 1)
+        if (level == 1)
         {
-            coinCount++;
-            _txtCoins.text = "$ " + coinCount * 10;
-            _spawnCoin.SpawnNewCoin();
-        }
-        else
-        {
-            win = true;
-            if (level == 1)
+            if (coinCount < 3)
             {
+                coinCount++;
+                _txtCoins.text = "$ " + coinCount * 10;
+                _spawnCoin.SpawnNewCoin();
+            }
+            else
+            {
+                win = true;
+                if (!PlayerPrefs.HasKey("level"))
+                {
+                    level = 2;
+                    PlayerPrefs.SetInt("level", level);
+                    PlayerPrefs.Save();
+                }
                 EndLevel("Congratulations. Go to level 2!");
             }
-            else if (level == 2)
+        }
+        else if (level == 2)
+        {
+            if (coinCount < 5)
             {
+                coinCount++;
+                _txtCoins.text = "$ " + coinCount * 10;
+                _spawnCoin.SpawnNewCoin();
+            }
+            else
+            {
+                win = true;
                 EndLevel("You win!");
             }
         }
