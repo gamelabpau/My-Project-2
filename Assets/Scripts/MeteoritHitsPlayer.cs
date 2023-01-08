@@ -9,11 +9,11 @@ public class MeteoritHitsPlayer : MonoBehaviour
     [SerializeField] private AudioClip hitPlayerAudioClip;
     [SerializeField] private ParticleSystem hitFloorParticleSystem;
     [SerializeField] private ParticleSystem hitPlayerParticleSystem;
-    private GameManager _gameManager;
+    private GameObject player;
 
     void Start()
     {
-        _gameManager = FindObjectOfType<GameManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
         meteoritAudioSource = this.gameObject.GetComponent<AudioSource>();
         
     }
@@ -25,7 +25,7 @@ public class MeteoritHitsPlayer : MonoBehaviour
             // Play hit player audio clip
             meteoritAudioSource.PlayOneShot(hitPlayerAudioClip, 1.0f);
             hitPlayerParticleSystem.Play();
-            _gameManager.TakeDamage(30f);
+            player.GetComponent<PlayerHealth>().TakeDamage(30f);
         }
         else
         {

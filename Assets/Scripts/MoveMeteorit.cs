@@ -20,8 +20,8 @@ public class MoveMeteorit : MonoBehaviour
         _meteoritRigidbody = GetComponent<Rigidbody>();
         _direction = _player.transform.position - transform.position;
         _meteoritRigidbody.velocity = _direction * meteoritSpeed;
-        Debug.Log("El meteorit " + gameObject.name + " surt amb una velocitat de "
-                  + _meteoritRigidbody.velocity + " " + _meteoritRigidbody.velocity.magnitude);
+        // Debug.Log("El meteorit " + gameObject.name + " surt amb una velocitat de "
+                  // + _meteoritRigidbody.velocity + " " + _meteoritRigidbody.velocity.magnitude);
         
     }
 

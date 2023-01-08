@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    private float health = 100.0f;
+    // private float health = 100.0f;
     private bool win = false;
     private int level = 0;
     private int coinCount = 0;
@@ -19,9 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _txtCoins;
     [SerializeField] private TextMeshProUGUI _txtWinMessage;
     [SerializeField] private Button _btnOk;
-    [SerializeField] private GameObject _player;
-    [SerializeField] private Slider _healthBar;
-
+    
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -78,20 +76,6 @@ public class GameManager : MonoBehaviour
         InitLevel();
     }
     
-    public void TakeDamage(float damageAmount)
-    {
-        health = health - damageAmount;
-        _healthBar.value = health;
- 
-        if (health <= 0f)
-        {
-            // die
-            Destroy(_player);
-            EndLevel("You die! Game Over");
-            win = false;
-        }   
-    }
-
     public void IncrementarMonedas()
     {
         if (level == 1)
@@ -106,14 +90,13 @@ public class GameManager : MonoBehaviour
             {
                 coinCount++;
                 _txtCoins.text = "$ " + coinCount * 10;
-                win = true;
                 if (!PlayerPrefs.HasKey("level"))
                 {
                     level = 2;
                     PlayerPrefs.SetInt("level", level);
                     PlayerPrefs.Save();
                 }
-                EndLevel("Congratulations. Go to level 2!");
+                EndLevel("Congratulations. Go to level 2!", true);
             }
         }
         else if (level == 2)
@@ -128,14 +111,15 @@ public class GameManager : MonoBehaviour
             {
                 coinCount++;
                 _txtCoins.text = "$ " + coinCount * 10;
-                win = true;
-                EndLevel("You win!");
+                
+                EndLevel("You win!", true);
             }
         }
     }
 
-    private void EndLevel(string message)
+    public void EndLevel(string message, bool win)
     {
+        this.win = win;
         _txtWinMessage.gameObject.SetActive(true);
         _txtWinMessage.text = message;
         _btnOk.gameObject.SetActive(true);

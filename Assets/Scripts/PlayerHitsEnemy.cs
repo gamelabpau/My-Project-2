@@ -16,7 +16,7 @@ public class PlayerHitsEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            _gameManager.TakeDamage(10f);
+            collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(10f);
         }
     }
 }
